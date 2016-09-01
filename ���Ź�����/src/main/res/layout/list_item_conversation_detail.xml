@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/date_title_conversation_list_item"
+        android:text="2022-02-02"
+        android:gravity="center_horizontal"
+        android:textColor="@android:color/darker_gray"
+        android:visibility="gone"
+        />
+    <TableLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tl_receive"
+        android:shrinkColumns="0" >
+
+        <TableRow android:layout_height="wrap_content" >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/receive_msg_bg"
+                    android:id="@+id/tv_msg_receive"
+                    android:text="dfadsffadf" />
+                <TextView
+                    android:layout_marginTop="3dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_date_receive"
+                    android:text="2022-02-02"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="5dp"
+                    />
+            </RelativeLayout>
+        </TableRow>
+    </TableLayout>
+    
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tl_send"
+        android:shrinkColumns="0" >
+
+        <TableRow android:layout_height="wrap_content" 
+            android:gravity="end">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/send_msg_bg"
+                    android:id="@+id/tv_msg_send"
+                    android:text="dfadsffadf" />
+                <TextView
+                    android:layout_marginTop="3dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="5dp"
+                    android:id="@+id/tv_date_send"
+                    android:text="2022-02-02"
+                    />
+            </RelativeLayout>
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

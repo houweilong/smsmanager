@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/image_check_box"
+        android:layout_centerVertical="true"
+        android:id="@+id/iv_checkbox_list_item"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:layout_toRightOf="@id/iv_checkbox_list_item"
+        android:layout_toEndOf="@id/iv_checkbox_list_item"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/iv_conversation_list_item"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ASDFIJOADSFOJ"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:textSize="18sp"
+        android:layout_marginTop="6dp"
+        android:layout_toRightOf="@id/iv_conversation_list_item"
+        android:layout_toEndOf="@id/iv_conversation_list_item"
+        android:textStyle="bold"
+        android:id="@+id/tv_conversation_list_item_adress"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/msg"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="6dp"
+        android:singleLine="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_alignBottom="@id/iv_conversation_list_item"
+        android:layout_toRightOf="@id/iv_conversation_list_item"
+        android:layout_toEndOf="@id/iv_conversation_list_item"
+        android:id="@+id/tv_conversation_list_item_msg"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ASDFIJO"
+        android:layout_marginTop="6dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/tv_conversation_list_item_date"
+        />
+</RelativeLayout>

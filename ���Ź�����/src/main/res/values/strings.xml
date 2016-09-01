@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">短信管理器</string>
+    <string name="tab_conversation_name">会话</string>
+    <string name="tab_folder_name">文件夹</string>
+    <string name="tab_group_name">群组</string>
+    <string-array name="title_names">
+        <item>会话</item>
+        <item>文件夹</item>
+        <item>群组</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="msg">ASDFIJOADSFOJASDFIJOADSFOJASDFIJOADSFOJASDFIJOADSFOJASDFIJOADSFOJASDFIJOADSFO         JASDFIJOADSFOJ</string>
+    <string name="search_hint">搜索信息</string>
+    <string name="action_serach">搜索</string>
+    <string name="action_add">添加</string>
+    <string name="action_add_sms">新建</string>
+    <string name="defaultgroupname">LOL战队</string>
+    <string name="edit">编辑</string>
+    <string name="smsdetali">短信详情</string>
+</resources>

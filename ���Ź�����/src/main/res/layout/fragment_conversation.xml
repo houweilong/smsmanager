@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.njust.smsmanager.fragment.ConversationFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" >
+
+        <Button
+            android:id="@+id/btn_conver_select_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:background="@drawable/btn_common_bg"
+            android:text="全选" />
+
+        <Button
+            android:id="@+id/btn_conver_select_none"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:background="@drawable/btn_common_bg"
+            android:text="取消全选" />
+        <Button
+            android:id="@+id/btn_conver_delete_msg"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_common_bg"
+            android:visibility="gone"
+            android:text="删除信息" />
+    </LinearLayout>
+    <ListView
+        android:fastScrollEnabled="false"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/lv_conversation"
+        android:divider="@drawable/list_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
+</LinearLayout>

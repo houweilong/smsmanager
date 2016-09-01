@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/tab_sms"
+        android:title="@string/tab_conversation_name" />
+    <item
+        android:icon="@drawable/tab_folder"
+        android:title="@string/tab_folder_name" />
+    <item
+        android:icon="@drawable/tab_group"
+        android:title="@string/tab_group_name" />
+</menu>

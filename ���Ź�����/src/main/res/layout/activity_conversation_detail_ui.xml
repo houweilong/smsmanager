@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--Toolbar-->
+    <include layout="@layout/custom_toolbar" />
+    <!--
+    设置listView的缓冲色为透明
+    android:cacheColorHint="@android:color/transparent"
+    设置item 被选中的时显示的颜色为透明
+    android:listSelector="@android:color/transparent"
+ -->
+    <ListView
+        android:id="@+id/lv_conversation_detail"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:fastScrollEnabled="false"
+        android:cacheColorHint="@android:color/transparent"
+        android:listSelector="@android:color/transparent"
+        android:layout_weight="2" >
+    </ListView>
+    <include layout="@layout/msg_send_footer"/>
+</LinearLayout>

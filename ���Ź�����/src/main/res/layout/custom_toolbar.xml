@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tl_custom"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorPrimary"
+    android:minHeight="?attr/actionBarSize"
+    app:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+    <TextView
+        android:id="@+id/btn_edit"
+        android:text="@string/edit"
+        android:textSize="20sp"
+        android:clickable="true"
+        android:textColor="@color/toolBar_title_color"
+        android:background="@android:color/transparent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/smsdetali"
+        android:textColor="@color/toolBar_title_color"
+        android:layout_gravity="center"
+        android:textSize="23sp"
+        android:id="@+id/toolbar_title" />
+</android.support.v7.widget.Toolbar>

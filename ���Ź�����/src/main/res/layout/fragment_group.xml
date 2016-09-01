@@ -1,0 +1,16 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.njust.smsmanager.fragment.GroupFragment">
+
+
+    <ListView
+        android:id="@+id/lv_group"
+        android:fastScrollEnabled="false"
+        android:divider="@drawable/list_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
+</LinearLayout>
