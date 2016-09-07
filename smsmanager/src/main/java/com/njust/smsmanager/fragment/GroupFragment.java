@@ -4,11 +4,13 @@ package com.njust.smsmanager.fragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.njust.smsmanager.App;
+import com.njust.smsmanager.GroupDetailActivity;
 import com.njust.smsmanager.R;
 import com.njust.smsmanager.dbUtils.Groups;
 import com.njust.smsmanager.dbUtils.ThreadGroups;
+import com.njust.smsmanager.utils.Constants;
 import com.njust.smsmanager.utils.Utils;
 
 import java.util.List;
@@ -96,10 +100,10 @@ public class GroupFragment extends Fragment implements AdapterView.OnItemClickLi
 
         //目标：根据threadIdCurosr中的内容，拼凑出类于 thread_id in (8,12) 的字符串
         String destStr = converCursor2MyStr(threadGroupses);
-        ViewPager pager = (ViewPager) getActivity().findViewById(R.id.pager);
-        pager.setTag(destStr);
-        //跳转至会话详情页面
-        pager.setCurrentItem(0,false);
+        Intent intent = new Intent(context, GroupDetailActivity.class);
+        intent.putExtra("where",destStr);
+        intent.putExtra("groupId",groupId);
+        startActivity(intent);
     }
 
     /**

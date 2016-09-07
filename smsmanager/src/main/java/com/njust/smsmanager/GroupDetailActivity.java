@@ -1,5 +1,4 @@
-package com.njust.smsmanager.fragment;
-
+package com.njust.smsmanager;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -7,10 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,14 +19,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.njust.smsmanager.App;
-import com.njust.smsmanager.ConversationDetailUI;
-import com.njust.smsmanager.R;
 import com.njust.smsmanager.dbUtils.Groups;
 import com.njust.smsmanager.utils.CommonQueryHandler;
 import com.njust.smsmanager.utils.Constants;
 import com.njust.smsmanager.utils.UiUtils;
 import com.njust.smsmanager.utils.Utils;
+
+import org.w3c.dom.Text;
 
 import java.util.HashSet;
 import java.util.List;
@@ -40,9 +37,8 @@ import butterknife.OnItemClick;
 import butterknife.OnItemLongClick;
 import butterknife.Unbinder;
 
-public class ConversationFragment extends Fragment implements AdapterView.OnItemClickListener,
+public class GroupDetailActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,
         View.OnClickListener,AdapterView.OnItemLongClickListener{
-
     //信息列表
     @BindView(R.id.lv_conversation) ListView listView;
 
@@ -53,9 +49,11 @@ public class ConversationFragment extends Fragment implements AdapterView.OnItem
     @BindView(R.id.btn_conver_select_none) Button btn_conver_select_none;
     @BindView(R.id.btn_conver_delete_msg) Button btn_conver_delete_msg;
 
-    private TextView btn_edit;
+    @BindView(R.id.btn_edit) TextView btn_edit;
+    @BindView(R.id.toolbar_title) TextView toolbar_title;
 
     private Unbinder unbinder;
+    private String groupName;
 
     /**
      * 会话列表所需要的字段
@@ -64,6 +62,7 @@ public class ConversationFragment extends Fragment implements AdapterView.OnItem
             {
                     "sms.body AS snippet",
                     "sms.thread_id AS _id",
+                    "groups.msg_count AS msg_count",
                     "address as address",
                     "date as date"
             };
@@ -74,8 +73,9 @@ public class ConversationFragment extends Fragment implements AdapterView.OnItem
 
     private static final int INDEX_BODY=0;
     private static final int INDEX_THREAD_ID=1;
-    private static final int INDEX_ADDRESS=2;
-    private static final int INDEX_DATE=3;
+    private static final int INDEX_MSG_COUNT=2;
+    private static final int INDEX_ADDRESS=3;
+    private static final int INDEX_DATE=4;
 
     /**
      * listView 的adapter
@@ -92,35 +92,28 @@ public class ConversationFragment extends Fragment implements AdapterView.OnItem
      */
     private boolean isEditState = false;
     private boolean isCancelDeleteMsg;
-
-    public ConversationFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_conversation, container, false);
-        unbinder = ButterKnife.bind(this,view);
-        return view;
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_group_detail);
+        unbinder = ButterKnife.bind(this);
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        context = getContext();
+        context = this;
+
+        long groupId = getIntent().getLongExtra("groupId",-1);
+        groupName = App.getGroupManager().getGroupNameById(groupId);
+        toolbar_title.setText(groupName);
 
         selectedSet = new HashSet<>();
         adapter = new MyListAdapter(context,null);
         listView.setAdapter(adapter);
-        btn_edit = (TextView) getActivity().findViewById(R.id.btn_edit);
-        btn_edit.setOnClickListener(this);
         prepareData();
+
     }
 
     static class ViewHolder{
-        @BindView(R.id.iv_conversation_list_item) ImageView image;
+        @BindView(R.id.iv_conversation_list_item)
+        ImageView image;
         @BindView(R.id.iv_checkbox_list_item) ImageView checkbox;
         @BindView(R.id.tv_conversation_list_item_adress) TextView address;
         @BindView(R.id.tv_conversation_list_item_msg) TextView msg;
@@ -141,10 +134,12 @@ public class ConversationFragment extends Fragment implements AdapterView.OnItem
          * 通常做法，开子线程取数据，handler回传
          */
         CommonQueryHandler commonQueryHandler = new CommonQueryHandler(context.getContentResolver());
+        String where = getIntent().getStringExtra("where");
         //开始查询
         commonQueryHandler.startQuery(10,adapter, Constants.URI_CONVERSATION,projection,
-                null,null,"date desc");
+                where,null,"date desc");
     }
+
 
     private static class MyOnClickListener implements DialogInterface.OnClickListener {
         private final long[] groupIds;
@@ -165,7 +160,7 @@ public class ConversationFragment extends Fragment implements AdapterView.OnItem
         }
     }
 
-    private class MyListAdapter extends CursorAdapter{
+    private class MyListAdapter extends CursorAdapter {
         public MyListAdapter(Context context, Cursor c) {
             super(context, c, true);
         }
@@ -249,7 +244,7 @@ public class ConversationFragment extends Fragment implements AdapterView.OnItem
     }
 
     @Override
-    @OnClick({R.id.btn_conver_select_all,R.id.btn_conver_select_none,R.id.btn_conver_delete_msg})
+    @OnClick({R.id.btn_conver_select_all,R.id.btn_conver_select_none,R.id.btn_conver_delete_msg,R.id.btn_edit})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_edit:
@@ -377,54 +372,10 @@ public class ConversationFragment extends Fragment implements AdapterView.OnItem
     @Override
     @OnItemLongClick(R.id.lv_conversation)
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Cursor cursor = adapter.getCursor();
-        cursor.moveToPosition(i);
-        int threadId = cursor.getInt(INDEX_THREAD_ID);
-        long groupId = App.getThreadGroupManager().getGroupIdByThreadId(threadId);
-        if(groupId != -1)
-        {
-            String groupName = App.getGroupManager().getGroupNameById(groupId);
-            Toast.makeText(context,"该会话已经被添加至"+groupName,Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            showAddToThreadGroupDialog(threadId);
-        }
+        Toast.makeText(this,"该会话已添加至"+groupName,Toast.LENGTH_SHORT).show();
         return true;
     }
 
-    /**
-     * 显示添加至群组对话框
-     * @param threadId 要添加的会话ID
-     */
-    private void showAddToThreadGroupDialog(final int threadId) {
-        //获得所有的会话信息
-        List<Groups> groupses = App.getGroupManager().getAllGroups();
-        if(groupses.size() > 0)
-        {
-            //说明已经有群组了
-            //准备数据
-            final long[] groupIds = new long[groupses.size()];
-            String[] groupNames = new String[groupses.size()];
-            for(int i=0;i<groupses.size();i++)
-            {
-                Groups groups = groupses.get(i);
-                groupIds[i] = groups.getId();
-                groupNames[i] = groups.getName();
-            }
-
-            //弹出对话框
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("请选择要加入的群组");
-            builder.setItems(groupNames, new MyOnClickListener(groupIds, threadId));
-            builder.show();
-        }
-        else
-        {
-            //还没有群组
-            Toast.makeText(context,"还没有群组",Toast.LENGTH_SHORT).show();
-        }
-    }
 
     private class DeleteMessageRunnable implements Runnable {
         @Override
@@ -437,11 +388,6 @@ public class ConversationFragment extends Fragment implements AdapterView.OnItem
                     break;
                 }
                 int deleteNum = Utils.deleteThreadById(threadId);
-                long groupId = App.getThreadGroupManager().getGroupIdByThreadId(Long.parseLong(threadId));
-                if(groupId != -1)
-                {
-                    App.getThreadGroupManager().deleteThreadGroupValue(Long.parseLong(threadId));
-                }
                 if(1 == deleteNum)
                 {
                     //通知进度条改变进度
@@ -454,7 +400,7 @@ public class ConversationFragment extends Fragment implements AdapterView.OnItem
             //关闭对话框
             proDialog.dismiss();
             //刷新状态
-            getActivity().runOnUiThread(new Runnable() {
+            GroupDetailActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     flushState();
@@ -465,8 +411,8 @@ public class ConversationFragment extends Fragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        super.onDestroy();
         unbinder.unbind();
         App.getRefWatcher().watch(this);
     }

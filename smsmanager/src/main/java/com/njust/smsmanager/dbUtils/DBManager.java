@@ -82,6 +82,23 @@ public class DBManager {
     }
 
     /**
+     * 新创建群组时，判断输入的群组名称是否已经存在，如果存在返回true，否则返回false
+     * @param name
+     * @return
+     */
+    public boolean isExist(String name)
+    {
+        List<Groups> list = getAllGroups();
+        for(Groups groups : list)
+        {
+            if(groups.getName().equals(name))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
      * 查询群组列表
      * @return
      */
@@ -121,6 +138,22 @@ public class DBManager {
     }
 
     /**
+     * 根据群组id查询群组的名称
+     * @param id
+     * @return
+     */
+    public String getGroupNameById(long id)
+    {
+        DaoMaster daoMaster = new DaoMaster(getReadableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        GroupsDao groupsDao = daoSession.getGroupsDao();
+        QueryBuilder<Groups> queryBuilder = groupsDao.queryBuilder().where(
+                GroupsDao.Properties.Id.eq(id));
+        Groups groups = queryBuilder.list().get(0);
+        return groups.getName();
+    }
+
+    /**
      * 将会话ID与对应的群组ID，添加至，会话群组对应的关系表
      * @param threadId 会话ID
      * @param groupId  群组ID
@@ -134,6 +167,40 @@ public class DBManager {
         DaoSession daoSession = daoMaster.newSession();
         ThreadGroupsDao dao = daoSession.getThreadGroupsDao();
         dao.insert(threadGroups);
+    }
+
+    /**
+     * 根据threadId查询对应的groupId，如果不存在，则返回-1
+     * @param threadId
+     * @return
+     */
+    public long getGroupIdByThreadId(long threadId)
+    {
+        DaoMaster daoMaster = new DaoMaster(getReadableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        ThreadGroupsDao dao = daoSession.getThreadGroupsDao();
+        List<ThreadGroups> groupses = dao.queryBuilder().where(
+                ThreadGroupsDao.Properties.Thread_id.eq(threadId)).list();
+        if(groupses != null && groupses.size() > 0)
+        {
+            return groupses.get(0).getGroup_id();
+        }
+        return -1;
+    }
+    /**
+     * 将对应的会话ID从group中删除
+     * @param threadId
+     */
+    public void deleteThreadGroupValue(long threadId)
+    {
+        DaoMaster daoMaster = new DaoMaster(getWritableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        ThreadGroupsDao dao = daoSession.getThreadGroupsDao();
+        List<ThreadGroups> groupses = dao.queryBuilder().where(ThreadGroupsDao.Properties.Thread_id.eq(threadId)).list();
+        if(groupses != null && groupses.size() > 0)
+        {
+            dao.delete(groupses.get(0));
+        }
     }
 
     /**

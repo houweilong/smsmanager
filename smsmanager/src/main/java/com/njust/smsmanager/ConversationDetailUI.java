@@ -16,6 +16,7 @@ import android.widget.AbsListView;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -106,7 +107,7 @@ public class ConversationDetailUI extends AppCompatActivity implements View.OnCl
         listView.addFooterView(view);
         adapter = new MessageDetailAdapter(this,null);
         listView.setAdapter(adapter);
-        listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+//        listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
     }
 
     private void initToolBar() {
@@ -251,8 +252,6 @@ public class ConversationDetailUI extends AppCompatActivity implements View.OnCl
                 holder.tl_receive.setVisibility(View.GONE);
                 inputMsg.setText(msg);
             }
-            //TODO 对日期标题进行设置
-
             //判断当前的位置是否在集合里面，如果在，显示标题，否则就隐藏
             if(showTitleSet.contains(cursor.getPosition())){
                 //显示

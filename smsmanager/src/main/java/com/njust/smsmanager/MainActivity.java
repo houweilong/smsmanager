@@ -216,10 +216,21 @@ public class MainActivity extends AppCompatActivity{
                     return;
                 }
                 //如果有内容，将群组名添加至数据库
-                //为简化操作，故在此没有做是否存在此群组的情况
-                App.getGroupManager().createGroup(name);
-                GroupFragment groupFragment = (GroupFragment) mainAdapter.getItem(2);
-                groupFragment.updateDatas();
+                //判断群组名称是否已经存在
+                if(App.getGroupManager().isExist(name))
+                {
+                    //表明群组已经存在，需要重新输入
+                    Toast.makeText(MainActivity.this,"该群组名称已经存在，请重新输入",Toast.LENGTH_SHORT).show();
+                    input.setText("");
+                    return;
+                }
+                else
+                {
+                    App.getGroupManager().createGroup(name);
+                    GroupFragment groupFragment = (GroupFragment) mainAdapter.getItem(2);
+                    groupFragment.updateDatas();
+                }
+
                 dialog.dismiss();
             }
         });

@@ -45,14 +45,14 @@
             </RelativeLayout>
         </TableRow>
     </TableLayout>
-    
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tl_send"
         android:shrinkColumns="0" >
 
-        <TableRow android:layout_height="wrap_content" 
+        <TableRow android:layout_height="wrap_content"
             android:gravity="end">
             <RelativeLayout
                 android:layout_width="match_parent"
